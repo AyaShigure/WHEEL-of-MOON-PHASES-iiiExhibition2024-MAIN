@@ -55,7 +55,7 @@ while(1):
             byte_data = string_to_send.encode()
             i2c.writeto(device, byte_data)
             print(f'Wrote to device {device}.')
-            time.sleep(5)
+            time.sleep(2)
     blink(2)
 
 #############################################

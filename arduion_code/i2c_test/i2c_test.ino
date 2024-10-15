@@ -1,6 +1,8 @@
 #include <Wire.h>
 #include <Stepper.h>
 
+boolean control_motor_flag = false; // This flag will be changed in received handle function,
+
 #define MOTOR_1   (6)   // IN1
 #define MOTOR_2   (7)   // IN2
 #define MOTOR_3   (8)   // IN3
@@ -28,7 +30,12 @@ void setup() {
 
 void loop() {
   // Waiting to receive i2c commands
+  if(control_motor_flag == true){
+    myStepper.step(1024);
+    control_motor_flag = false;
+  }
 //  myStepper.step(1024);
+//  myStepper_demo_revolution();
 //  delay(1000);
   }
 
@@ -40,8 +47,9 @@ void receiveEvent(int howMany) {
     Serial.print(c);  // 打印接收到的数据
   }
 
-  myStepper.step(1024);
-  delay(1000);
+  control_motor_flag = true;
+//  myStepper.step(1024);
+//  delay(1000);
 //  myStepper_pulse(256);
   blink(1);
 }
