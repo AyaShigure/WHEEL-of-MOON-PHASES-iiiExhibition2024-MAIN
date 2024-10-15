@@ -40,7 +40,7 @@ print("I2C设备地址:", devices)
         1. Avoid I2C poor connections
         2. Data to send in one go must be under 32 bytes
 
-'''
+        '''
 while(1):
     if len(devices) == 0:
         devices = i2c.scan()
