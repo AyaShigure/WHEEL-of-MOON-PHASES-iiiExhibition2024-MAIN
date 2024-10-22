@@ -90,9 +90,6 @@ void setup() {
 
   digitalWrite(ENABLE_PIN, LOW);  // 使能A4988（低电平有效）
 
-
-
-
   // Big motor init
   myStepper.setSpeed(10);
   // 设置唯一的I2C地址 (根据你前面定义的地址方案)

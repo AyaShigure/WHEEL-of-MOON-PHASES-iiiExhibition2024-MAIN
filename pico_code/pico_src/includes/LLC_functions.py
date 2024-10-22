@@ -12,9 +12,9 @@ def blink(count):
     led = Pin(25, Pin.OUT)
     for i in range(count):
         led.value(1)
-        time.sleep(0.1)
+        time.sleep(0.5)
         led.value(0)
-        time.sleep(0.1)
+        time.sleep(0.5)
         
 def boot():
     pin_init()
