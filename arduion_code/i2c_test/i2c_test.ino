@@ -87,7 +87,6 @@ void setup() {
   pinMode(STEP_PIN, OUTPUT);
   pinMode(DIR_PIN, OUTPUT);
   pinMode(ENABLE_PIN, OUTPUT);
-
   digitalWrite(ENABLE_PIN, LOW);  // 使能A4988（低电平有效）
 
   // Big motor init

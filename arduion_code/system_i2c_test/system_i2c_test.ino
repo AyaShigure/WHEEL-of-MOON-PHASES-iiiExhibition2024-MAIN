@@ -8,12 +8,19 @@
 #define MOTOR_2   (7)   // IN2
 #define MOTOR_3   (8)   // IN3
 #define MOTOR_4   (9)   // In4
-
 #define MOTOR_STEPS (2048) // A full rebo 
-
 // ライブラリが想定している配線が異なるので2番、3番を入れ替える
 Stepper myStepper(MOTOR_STEPS, MOTOR_1, MOTOR_3, MOTOR_2, MOTOR_4);
 
+// Small motor
+#define ENABLE_PIN 10  // 可选的使能引脚
+#define STEP_PIN 11  // A4988的STEP引脚
+#define DIR_PIN 12   // A4988的DIR引脚
+int stepsPerRevolution = 200;  // 假设电机每转一圈需要200步
+
+
+
+// Big motor
 void myStepper_demo_revolution() {
   // step one revolution  in one direction:
   myStepper.step(MOTOR_STEPS);
@@ -33,11 +40,36 @@ void disable_motor() {
   digitalWrite(MOTOR_4, LOW);
 }
 
+// Small motor
 
 
+
+
+// I2C stuff
 int address;
 static int led_pin = 13;
+void blink_led() {
+  digitalWrite(led_pin, 1);
+  delay(200);
+  digitalWrite(led_pin, 0);
+  delay(200);
+}
 
+void address_blink() {
+  for (int i = 0; i < address; i++) {
+
+    digitalWrite(led_pin, 1);
+    delay(500);
+    digitalWrite(led_pin, 0);
+    delay(500);
+
+  }
+
+  delay(1000);
+}
+
+
+// Main functions
 void setup() {
   // 设置 D2-D5 为输入引脚，并启用内部上拉电阻
   pinMode(2, INPUT_PULLUP);
@@ -73,24 +105,4 @@ void loop() {
   myStepper.step(1024);
   delay(1000);
 
-}
-
-void address_blink() {
-  for (int i = 0; i < address; i++) {
-
-    digitalWrite(led_pin, 1);
-    delay(500);
-    digitalWrite(led_pin, 0);
-    delay(500);
-
-  }
-
-  delay(1000);
-}
-
-void blink_led() {
-  digitalWrite(led_pin, 1);
-  delay(200);
-  digitalWrite(led_pin, 0);
-  delay(200);
 }
