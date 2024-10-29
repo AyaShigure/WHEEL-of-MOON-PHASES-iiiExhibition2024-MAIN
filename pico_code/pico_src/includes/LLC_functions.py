@@ -18,4 +18,5 @@ def blink(count):
         
 def boot():
     pin_init()
-    blink(6)
+    # blink(6)
+    

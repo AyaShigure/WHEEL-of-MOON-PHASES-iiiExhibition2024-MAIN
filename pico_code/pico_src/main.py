@@ -16,7 +16,7 @@ import time
 
 
 # Test code 
-time.sleep(3) # Prevent the rshell from grabbing the serial port
+time.sleep(2) # Prevent the rshell from grabbing the serial port
 boot() # Initialize all pins to 0, beep for 6 times.
 # while(1):
 #     blink(1)
