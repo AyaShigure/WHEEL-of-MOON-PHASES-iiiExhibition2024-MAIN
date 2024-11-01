@@ -7,7 +7,7 @@ boolean control_motor_flag = false; // This flag will be changed in received han
 #define ENABLE_PIN 10  // 可选的使能引脚
 #define STEP_PIN 11  // A4988的STEP引脚
 #define DIR_PIN 12   // A4988的DIR引脚
-int stepsPerRevolution = 200;  // 假设电机每转一圈需要200步
+int stepsPerRevolution = 200 * 10;  // 假设电机每转一圈需要200步
 
 // Big motor
 
@@ -122,8 +122,8 @@ void loop() {
 void stepMotor(int steps) {
   for (int i = 0; i < steps; i++) {
     digitalWrite(STEP_PIN, HIGH);  // 发送脉冲
-    delayMicroseconds(2000);  // 控制脉冲间隔，决定速度
+    delayMicroseconds(1500);  // 控制脉冲间隔，决定速度
     digitalWrite(STEP_PIN, LOW);
-    delayMicroseconds(2000);  // 控制脉冲间隔，决定速度
+    delayMicroseconds(1500);  // 控制脉冲间隔，决定速度
   }
 }

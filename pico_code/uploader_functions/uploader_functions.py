@@ -15,7 +15,7 @@ import sys
 
 '''
 def fancy_print():
-    ascii_art = pyfiglet.figlet_format("WHEEL of MOON PHSAES", font="big")
+    ascii_art = pyfiglet.figlet_format("WHEEL of MOON PHASES", font="big")
     print_like_GPT(ascii_art)
     print()
     print_like_GPT('[Created by ISEI & AZUL & Aya at The University of Tokyo]', bcolors.OKCYAN)

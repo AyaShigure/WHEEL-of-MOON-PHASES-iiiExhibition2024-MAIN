@@ -1,7 +1,8 @@
-from machine import Pin, PWM, ADC
+from machine import Pin, PWM, ADC, I2C
 import time
 
 # This function set is for direct hardware control, the most basic functions
+i2c = I2C(0, scl=Pin(21), sda=Pin(20), freq=100000)
 
 def pin_init():
     for i in range(26):
@@ -18,5 +19,8 @@ def blink(count):
         
 def boot():
     pin_init()
-    # blink(6)
     
+# 函数：发送四字节数据包
+def send_motor_commands(address, motor1_dir, motor1_steps, motor2_dir, motor2_steps):
+    data = bytearray([motor1_dir, motor1_steps, motor2_dir, motor2_steps])
+    i2c.writeto(address, data)
