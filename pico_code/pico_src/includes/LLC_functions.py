@@ -24,3 +24,21 @@ def boot():
 def send_motor_commands(address, motor1_dir, motor1_steps, motor2_dir, motor2_steps):
     data = bytearray([motor1_dir, motor1_steps, motor2_dir, motor2_steps])
     i2c.writeto(address, data)
+
+
+def move_all_big_motors(dir, steps):
+    '''
+        dir -> 0 or 1
+        steps -> [0,255] !!!!!!!!!
+    '''
+    for i in range(12):
+        send_motor_commands(0x08 + i, dir, steps, 0, 0)
+
+
+def move_all_small_motors(dir, steps):
+    '''
+        dir -> 0 or 1
+        steps -> [0,255] !!!!!!!!!
+    '''
+    for i in range(12):
+        send_motor_commands(0x08 + i, 0, 0, dir, steps)

@@ -1,7 +1,7 @@
 #include <Wire.h>
 #include <Stepper.h>
 // Flags n controls
-bool update_traget_flag = false;
+bool update_target_flag = false; 
 int motor1_direction = 1;  // 电机 1 的方向
 int motor1_steps = 0;      // 电机 1 的步数
 int motor2_direction = 1;  // 电机 2 的方向
@@ -18,13 +18,14 @@ int motor2_steps = 0;      // 电机 2 的步数
 // ライブラリが想定している配線が異なるので2番、3番を入れ替える
 Stepper myStepper(MOTOR_STEPS, MOTOR_1, MOTOR_3, MOTOR_2, MOTOR_4);
 
-void myStepper_revolution(bool dir, int steps) {
+void myStepper_revolution(int dir, int steps) {
+  int true_steps = (int)(steps * 6);
   // step one revolution  in one direction:
   if (dir == 0) {
-    myStepper.step(steps);
+    myStepper.step(true_steps);
 
   }else{
-    myStepper.step(-steps);
+    myStepper.step(-true_steps);
   }
   disable_motor();
 }
@@ -43,15 +44,21 @@ void disable_motor() {
 #define DIR_PIN 12   // A4988的DIR引脚
 int stepsPerRevolution = 200;  // 假设电机每转一圈需要200步
 
-void A4988_stepper_motor(boolean dir, int steps) {
+void A4988_stepper_motor(int dir, int steps) {
+  int true_steps = (int)(steps * 6);
   digitalWrite(ENABLE_PIN, LOW);  // Enable A4988
 
-  digitalWrite(DIR_PIN, dir);
-  for (int i = 0; i < steps; i++) {
+  if (dir == 0) {
+    digitalWrite(DIR_PIN, LOW);
+  }else{
+    digitalWrite(DIR_PIN, HIGH);
+  }
+  
+  for (int i = 0; i < true_steps; i++) {
     digitalWrite(STEP_PIN, HIGH);  // 发送脉冲
-    delayMicroseconds(8000);  // 控制脉冲间隔，决定速度
+    delayMicroseconds(1500);  // 控制脉冲间隔，决定速度
     digitalWrite(STEP_PIN, LOW);
-    delayMicroseconds(8000);  // 控制脉冲间隔，决定速度
+    delayMicroseconds(1500);  // 控制脉冲间隔，决定速度
   }
 
   digitalWrite(ENABLE_PIN, HIGH);  // Disable A4988
@@ -122,14 +129,31 @@ void setup() {
 
 void loop() {
   if (update_target_flag) {
-    
+    Serial.println("Message Received");
+    Serial.print("motor1_direction: ");
+    Serial.println(motor1_direction);
+    Serial.print("motor1_steps: ");
+    Serial.println(motor1_steps);
+    Serial.print("motor2_direction: ");
+    Serial.println(motor2_direction);
+    Serial.print("motor2_steps: ");
+    Serial.println(motor2_steps);
+    Serial.println();
+
     // Big motor rot
     myStepper_revolution(motor1_direction, motor1_steps);
+
     // Small motor rot
     A4988_stepper_motor(motor2_direction, motor2_steps);
 
     blink_led();
     update_target_flag = false;  // 重置标志
   }
+//
+//  A4988_stepper_motor(0, 200);
+//  delay(2000);
+//  A4988_stepper_motor(1, 200);
+//  delay(2000);
+
 
 }
